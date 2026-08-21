@@ -10,7 +10,7 @@ DB = os.path.join(BASE, "librarydesk.db")
 UPLOAD = os.path.join(BASE, "uploads")
 os.makedirs(UPLOAD, exist_ok=True)
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder=".")
 app.secret_key = os.environ.get("SECRET_KEY", "change-this-secret-before-production")
 app.config["UPLOAD_FOLDER"] = UPLOAD
 
