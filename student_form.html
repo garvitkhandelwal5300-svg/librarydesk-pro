@@ -1,0 +1,13 @@
+
+{% extends "base.html" %}{% block body %}<div class="top"><div><h1>{{'Edit Student' if s else 'Add New Student'}}</h1><p class="muted">Today's date is filled automatically, but you can edit it.</p></div></div>
+<div class="card"><form method="post" enctype="multipart/form-data"><div class="formgrid">
+<label>Name<input name="name" required value="{{s['name'] if s else ''}}"></label><label>Student Mobile<input name="mobile" value="{{s['mobile'] if s else ''}}"></label>
+<label>Guardian Name<input name="guardian" value="{{s['guardian'] if s else ''}}"></label><label>Guardian Mobile<input name="guardian_mobile" value="{{s['guardian_mobile'] if s else ''}}"></label>
+<label class="wide">Address<textarea name="address">{{s['address'] if s else ''}}</textarea></label>
+<label class="wide">Student Photo<input type="file" name="photo" accept="image/*" capture="user"></label>
+<label>Seat<select name="seat" required>{% for i in range(1,101) %}{% if i not in occupied or (s and i==s['seat']) %}<option value="{{i}}" {{'selected' if s and i==s['seat'] else ''}}>Seat {{i}}</option>{% endif %}{% endfor %}</select></label>
+<label>Monthly Fee<input type="number" name="fee" required value="{{s['fee'] if s else ''}}"></label>
+<label>Joining Date<input type="date" name="joining" required value="{{s['joining'] if s else today}}"></label><label>Fee Due Day<input type="number" min="1" max="31" name="due_day" required value="{{s['due_day'] if s else 5}}"></label>
+{% if not s %}<label>Current Fee Submitted?<select name="current_paid" onchange="document.getElementById('paymentFields').style.display=this.value==='yes'?'grid':'none'"><option value="no">No — Keep Due</option><option value="yes">Yes — Mark Paid</option></select></label>
+<div id="paymentFields" class="formgrid wide" style="display:none"><label>Mode<select name="mode"><option>Cash</option><option>Online</option></select></label><label>Payment Date<input type="date" name="paid_on" value="{{today}}"></label></div>{% endif %}
+</div><button style="margin-top:20px">{{'Save Changes' if s else 'Save Student'}}</button></form></div>{% endblock %}
